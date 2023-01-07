@@ -1,0 +1,1 @@
+Just a small project to track my smoking habit and collect data to give me more reason to quit it. Work in progress
