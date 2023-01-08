@@ -2,6 +2,7 @@ package com.eminyilmazz.smoketracker.service.impl;
 
 import com.eminyilmazz.smoketracker.dto.RequestSmokeDto;
 import com.eminyilmazz.smoketracker.entity.Smoke;
+import com.eminyilmazz.smoketracker.enums.Activity;
 import com.eminyilmazz.smoketracker.repository.SmokeRepository;
 import com.eminyilmazz.smoketracker.service.SmokeService;
 import com.eminyilmazz.smoketracker.utility.UtilityService;
