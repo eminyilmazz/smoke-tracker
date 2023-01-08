@@ -2,6 +2,7 @@ package com.eminyilmazz.smoketracker.utility.mapper;
 
 import com.eminyilmazz.smoketracker.dto.RequestSmokeDto;
 import com.eminyilmazz.smoketracker.entity.Smoke;
+import com.eminyilmazz.smoketracker.enums.Activity;
 
 import static com.eminyilmazz.smoketracker.utility.UtilityService.*;
 
@@ -13,14 +14,14 @@ public class SmokeMapper {
         return RequestSmokeDto.builder()
                 .smokedDate(getDate(entity.getSmokedDate().toLocalDate()))
                 .smokedTime(getTime(entity.getSmokedDate().toLocalTime()))
-                .activity(entity.getActivity())
+                .activity(entity.getActivity().getValue())
                 .quantity(entity.getQuantity())
                 .build();
     }
     public static Smoke toEntity(RequestSmokeDto dto) {
         return Smoke.builder()
                 .smokedDate(toLocalDateTime(dto.getSmokedDate(), dto.getSmokedTime()))
-                .activity(dto.getActivity())
+                .activity(Activity.fromValue(dto.getActivity()))
                 .quantity(dto.getQuantity())
                 .build();
     }

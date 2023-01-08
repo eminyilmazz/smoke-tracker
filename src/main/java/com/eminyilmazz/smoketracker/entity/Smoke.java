@@ -1,5 +1,6 @@
 package com.eminyilmazz.smoketracker.entity;
 
+import com.eminyilmazz.smoketracker.enums.Activity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,8 @@ public class Smoke {
     private LocalDateTime smokedDate;
 
     @Column(name = "activity")
-    private String activity;
+    @Enumerated(EnumType.STRING)
+    private Activity activity;
 
     @Column(name = "quantity")
     private int quantity;
