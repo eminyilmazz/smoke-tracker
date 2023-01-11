@@ -23,13 +23,13 @@ public class Smoke {
     @JsonIgnore
     private Long id;
 
-    @Column(name = "smoked_date")
+    @Column(name = "smoked_date", table = "smoke")
     private LocalDateTime smokedDate;
 
-    @Column(name = "activity")
+    @Column(name = "activity", table = "smoke")
     @Enumerated(EnumType.STRING)
     private Activity activity;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", table = "smoke")
     private int quantity;
 }
