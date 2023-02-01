@@ -2,6 +2,8 @@ package com.eminyilmazz.smoketracker.utility;
 
 
 import com.eminyilmazz.smoketracker.dto.RequestSmokeDto;
+import com.eminyilmazz.smoketracker.dto.RequestStatDto;
+import com.eminyilmazz.smoketracker.enums.Activity;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +12,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import static com.eminyilmazz.smoketracker.enums.Activity.fromValue;
 import static java.lang.Long.parseLong;
 
 public class UtilityService {
@@ -48,7 +55,7 @@ public class UtilityService {
     }
 
     public static Long getDate() {
-        return parseLong(LocalTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
+        return parseLong(LocalDate.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT)));
     }
     public static Long getTime(LocalTime o) {
         return parseLong(o.format(DateTimeFormatter.ofPattern(TIME_FORMAT)));
@@ -59,6 +66,26 @@ public class UtilityService {
     }
 
     public static boolean dateTimeExists(RequestSmokeDto o) {
-        return !StringUtils.isEmpty(String.valueOf(o.getSmokedDate())) && !StringUtils.isEmpty(String.valueOf(o.getSmokedTime()));
+        return StringUtils.isEmpty(String.valueOf(o.getSmokedDate())) && StringUtils.isEmpty(String.valueOf(o.getSmokedTime()));
+    }
+
+    public static String getActivityValue(String s) {
+        return fromValue(s).getValue();
+    }
+
+    public static Long transformTimeInterval(double h) {
+        return (long) Math.floor(h * 60);
+    }
+
+    public static Map<String, Integer> fillStatResponse(List<RequestSmokeDto> dtoList) {
+        Map<String, Integer> stat = new HashMap<>();
+        Integer quantity = dtoList.stream().mapToInt(i -> i.getQuantity()).sum();
+        stat.put("total", quantity);
+
+        for (RequestSmokeDto var : dtoList) {
+            stat.computeIfPresent(var.getActivity(), (key, value) -> value + 1);
+            stat.putIfAbsent(var.getActivity(), 1);
+        }
+        return stat;
     }
 }

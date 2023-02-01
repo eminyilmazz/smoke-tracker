@@ -1,6 +1,7 @@
 package com.eminyilmazz.smoketracker.controller;
 
 import com.eminyilmazz.smoketracker.dto.RequestSmokeDto;
+import com.eminyilmazz.smoketracker.dto.RequestStatDto;
 import com.eminyilmazz.smoketracker.service.SmokeService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -30,5 +31,14 @@ public class SmokeController {
         smokeService.addSmoke(smokeDto);
         logger.trace("Completed /smoke/add in {}ms", Duration.between(start, Instant.now()).toMillis());
         return ResponseEntity.status(HttpStatus.CREATED).body("Congratulations loser. I hope you enjoyed that smoke.");
+    }
+
+    @GetMapping(value = "/all", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<String> getAll(@RequestBody RequestStatDto statDto) throws InterruptedException {
+        Instant start = Instant.now();
+        logger.trace("/smoke/all request received.");
+        logger.trace("Completed /smoke/all in {}ms", Duration.between(start, Instant.now()).toMillis());
+        return ResponseEntity.status(HttpStatus.OK).body(smokeService.getAll(statDto));
     }
 }
